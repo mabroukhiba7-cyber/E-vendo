@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>E-vendo - Détails du Produit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ff6b9d, #c06cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-container {
+            display: flex;
+            flex: 0 1 500px;
+            margin: 0 2rem;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .search-container button {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 0 25px 25px 0;
+            transition: all 0.3s;
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .menu li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .menu li a:hover {
+            color: #ff6b9d;
+        }
+
+        .account-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .account-icon i {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        /* Product Container */
+        .product-container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 5%;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        .product-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: #fff;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .product-images {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-info h1 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.1rem;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #ff6b9d15, #c06cff15);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .product-description {
+            margin-bottom: 2rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .quantity-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .btn-icon {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-icon:hover {
+            border-color: #ff6b9d;
+            color: #ff6b9d;
+            transform: translateY(-3px);
+        }
+
+        /* Specifications Table */
+        .specs-section {
+            background: #fff;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .specs-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .specs-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b9d, #c06cff);
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .specs-table thead {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            color: white;
+        }
+
+        .specs-table th {
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .specs-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s;
+        }
+
+        .specs-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .specs-table td {
+            padding: 1.2rem;
+        }
+
+        .comp-name {
+            font-weight: 600;
+            color: #333;
+            width: 30%;
+        }
+
+        .main-detail {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .sub-detail {
+            display: block;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Related Products */
+        .related-section {
+            margin-bottom: 3rem;
+        }
+
+        .related-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .related-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .related-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f8f9fa;
+        }
+
+        .related-info {
+            padding: 1.5rem;
+        }
+
+        .related-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-price {
+            color: #ff6b9d;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 2.5rem 5%;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        footer p a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 968px) {
+            .product-main {
+                grid-template-columns: 1fr;
+            }
+
+            .product-images {
+                position: static;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div>
+            <h1 class="logo">E-vendo</h1>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher...">
+            <button onclick="goToPage()">🔍</button>
+        </div>
+        <ul class="menu">
+            <li><a href="mini projet .html">Accueil</a></li>
+            <li><a href="sold.html">Soldes</a></li>
+            <li><a href="panier.html">Panier</a></li>
+        </ul>
+        <div class="account">
+            <a href="form.html">
+                <div class="account-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="product-container">
+        <div class="breadcrumb">
+            
+        </div>
+
+        <div class="product-main">
+            <div class="product-images">
+                <div class="main-image">
+                    <img src="smart-tv.png" >
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1>tv telephonkon</h1>
+                
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="rating-text">(4.5/5 - 127 avis)</span>
+                </div>
+
+                <div class="price-section">
+                    <div class="price">699 DT</div>
+                    <div class="price-info">TVA incluse • Livraison gratuite</div>
+                </div>
+
+                <div class="product-description">
+                    <p>La télévision Telephonkon allie qualité d’image, design moderne et performances fiables pour une expérience de divertissement immersive à la maison.</p>
+                </div>
+
+                <div class="quantity-section">
+                    <span class="quantity-label">Quantité:</span>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                        <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="10" readonly>
+                        <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="addToCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        Ajouter au panier
+                    </button>
+                    <button class="btn-icon" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="btn-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-truck" style="color: #ff6b9d; margin-right: 0.5rem;"></i>Livraison sous 2-3 jours ouvrables</p>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fas fa-shield-alt" style="color: #ff6b9d; margin-right: 0.5rem;"></i>Garantie 2 ans</p>
+                    <p style="color: #666; font-size: 0.9rem;"><i class="fas fa-undo" style="color: #ff6b9d; margin-right: 0.5rem;"></i>Retour gratuit sous 14 jours</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="specs-section">
+            <h2 class="specs-title">Spécifications Techniques</h2>
+            <table class="specs-table">
+    <thead>
+        <tr>
+            <th>Composant</th>
+            <th>Détails de la Configuration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="comp-name">Processeur (Image)</td>
+            <td>
+                <span class="main-detail">Processeur Quad-Core</span>
+                <span class="sub-detail">Traitement fluide de l’image et des applications.</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="comp-name">Technologie d’Affichage</td>
+            <td>
+                <span class="main-detail">LED / Smart TV Full HD ou 4K</span>
+                <span class="sub-detail">Images nettes et couleurs réalistes.</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="comp-name">Mémoire (RAM)</td>
+            <td>
+                <span class="main-detail">2 Go RAM</span>
+                <span class="sub-detail">Navigation fluide entre les menus et applications.</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="comp-name">Stockage Interne</td>
+            <td>
+                <span class="main-detail">16 Go intégrés</span>
+                <span class="sub-detail">Espace suffisant pour les applications Smart TV.</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="comp-name">Design</td>
+            <td>
+                <span class="main-detail">Châssis fin avec cadre élégant</span>
+                <span class="sub-detail">Design moderne adapté à tous les intérieurs.</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+        </div>
+
+        <div class="related-section">
+            <h2 class="related-title">Produits Similaires</h2>
+            <div class="related-products">
+                <div class="related-card" >
+                    <img src="tv2.jpg" alt="PC HP">
+                    <div class="related-info">
+                        <div class="related-name">55-inch Smart 4Km</div>
+                        <div class="related-price">1879 DT</div>
+                    </div>
+                </div>
+                <div class="related-card" >
+                    <img src="tv.jpg" alt="PC ASUS">
+                    <div class="related-info">
+                        <div class="related-name">Samsung 55" Crystal UHD 4K</div>
+                        <div class="related-price">2379 DT</div>
+                    </div>
+                </div>
+                <div class="related-card" onclick="window.location.href='acheter3.html'">
+                    <img src="tv3.jpg" alt="Smartphone">
+                    <div class="related-info">
+                        <div class="related-name">TCL</div>
+                        <div class="related-price">1389 DT</div>
+                    </div>
+                </div>
+                <div class="related-card" >
+                    <img src="tv5.png" alt="iPhone 16">
+                    <div class="related-info">
+                        <div class="related-name">Samsung</div>
+                        <div class="related-price">1695 DT</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>E-vendo <a href="#">© 2026</a></p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        function goToPage() {
+            const value = document.getElementById("searchInput").value.toLowerCase().trim();
+            const productMap = {
+                "pc-gamer": "acheter.html",
+                "risen": "acheter.html",
+                "pc-hp": "acheter1.html",
+                "hp": "acheter1.html",
+                "pc-asus": "acheter2.html",
+                "asus": "acheter2.html",
+                "telephonkon": "acheter3.html",
+                "smartphone": "acheter3.html",
+                "iphone": "acheter4.html"
+            };
+
+            if (productMap[value]) {
+                window.location.href = productMap[value];
+            } else {
+                alert("Produit non trouvé");
+            }
+        }
+
+        document.getElementById("searchInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") goToPage();
+        });
+
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+            const current = parseInt(input.value);
+            if (current < 10) {
+                input.value = current + 1;
+            }
+        }
+
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+            const current = parseInt(input.value);
+            if (current > 1) {
+                input.value = current - 1;
+            }
+        }
+
+        function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+
+    const product = {
+        name: "telephonkon",
+        price: 699,
+        quantity: quantity,
+        img: "smart-tv.png"
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Vérifier si le produit existe déjà
+    const existingProduct = cart.find(item => item.name === product.name);
+
+    if (existingProduct) {
+        existingProduct.quantity += quantity;
+    } else {
+        cart.push(product);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Produit ajouté au panier !");
+    window.location.href = "panier.html"; // redirection propre
+}
+
+
+        function toggleWishlist(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.style.color = '#ff6b9d';
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.style.color = '';
+            }
+        }
+    </script>
+</body>
+</html>

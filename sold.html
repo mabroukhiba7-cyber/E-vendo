@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soldes - E-vendo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===== BASE ===== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#f8f9fa;
+    overflow-x:hidden;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+    background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);
+    padding:1.2rem 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 4px 20px rgba(0,0,0,.1);
+}
+
+.logo{
+    font-size:1.8rem;
+    font-weight:700;
+    background:linear-gradient(45deg,#ff6b9d,#c06cff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.search-container{
+    display:flex;
+    flex:0 1 500px;
+    margin:0 2rem;
+}
+
+.search-container input{
+    flex:1;
+    padding:.8rem 1.2rem;
+    border:none;
+    border-radius:25px 0 0 25px;
+}
+
+.search-container button{
+    background:linear-gradient(135deg,#ff6b9d,#c06cff);
+    border:none;
+    padding:0 1.5rem;
+    color:#fff;
+    border-radius:0 25px 25px 0;
+    cursor:pointer;
+}
+
+.menu{
+    list-style:none;
+    display:flex;
+    gap:2rem;
+}
+
+.menu li a{
+    color:#fff;
+    text-decoration:none;
+}
+
+.account-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#ff6b9d,#c06cff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.account-icon i{color:#fff}
+
+/* ===== SOLD HEADER ===== */
+.sold-header{
+    text-align:center;
+    margin:3rem 0 2rem;
+}
+
+.sold-header h1{
+    font-size:2.5rem;
+    color:#333;
+}
+
+.sold-header p{
+    color:#777;
+    margin-top:.5rem;
+}
+
+/* ===== SOLD PRODUCTS ===== */
+.section_produits{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:2rem;
+    padding:0 5% 4rem;
+    max-width:1400px;
+    margin:auto;
+}
+
+.carte{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    position:relative;
+    transition:.4s;
+}
+
+.carte:hover{
+    transform:translateY(-10px);
+}
+
+.badge{
+    position:absolute;
+    top:15px;
+    left:15px;
+    background:#ff4757;
+    color:#fff;
+    padding:.4rem .8rem;
+    border-radius:20px;
+    font-size:.8rem;
+    font-weight:700;
+}
+
+.img{
+    height:230px;
+}
+
+.img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.content{
+    padding:1.2rem;
+}
+
+.price{
+    display:flex;
+    gap:1rem;
+    align-items:center;
+    margin:.8rem 0;
+}
+
+.old-price{
+    text-decoration:line-through;
+    color:#999;
+}
+
+.new-price{
+    font-size:1.2rem;
+    font-weight:700;
+    color:#ff6b9d;
+}
+
+.content button{
+    width:100%;
+    border:none;
+    padding:.8rem;
+    border-radius:25px;
+    background:linear-gradient(135deg,#ff6b9d,#c06cff);
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* ===== FOOTER ===== */
+ footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 2.5rem 5%;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        footer p a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .search-container {
+                order: 3;
+                flex: 1 1 100%;
+                margin: 0;
+            }
+
+            .menu {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .image-slider {
+                height: 300px;
+            }
+
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .slider-btn.prev { left: 1rem; }
+            .slider-btn.next { right: 1rem; }
+
+            .products-header h1 {
+                font-size: 2rem;
+            }
+
+            .section_produits {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                padding: 0 3% 3rem;
+            }
+        }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <h1 class="logo">E-vendo</h1>
+
+    <div class="search-container">
+        <input type="text" placeholder="Rechercher ...">
+        <button>🔍</button>
+    </div>
+
+    <ul class="menu">
+        <li><a href="mini projet .html">Accueil</a></li>
+        <li><a href="sold.html">Soldes</a></li>
+        <li><a href="panier.html">Panier</a></li>
+    </ul>
+
+    <a href="form.html">
+        <div class="account-icon"><i class="fas fa-user"></i></div>
+    </a>
+</nav>
+
+<!-- SOLD CONTENT -->
+<div class="sold-header">
+    <h1>🔥 Soldes Exceptionnelles</h1>
+    <p>Des réductions limitées à ne pas manquer</p>
+</div>
+
+<section class="section_produits">
+
+<!-- Product 1 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-30%</span>
+        <div class="img"><img src="ecouteur (2).png" alt="Écouteurs Bluetooth"></div>
+        <div class="content">
+            <div>Écouteurs Bluetooth</div>
+            <div class="price">
+                <span class="old-price">210 DT</span>
+                <span class="new-price">149 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 2 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-25%</span>
+        <div class="img"><img src="souris.png" alt="Souris Gaming"></div>
+        <div class="content">
+            <div>Souris Gaming RGB</div>
+            <div class="price">
+                <span class="old-price">172 DT</span>
+                <span class="new-price">129 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 3 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-20%</span>
+        <div class="img"><img src="clavier.png" alt="Clavier Gaming"></div>
+        <div class="content">
+            <div>Clavier Gaming</div>
+            <div class="price">
+                <span class="old-price">274 DT</span>
+                <span class="new-price">219 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 4 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-15%</span>
+        <div class="img"><img src="screen.png" alt="Écran Gaming"></div>
+        <div class="content">
+            <div>Écran 24"</div>
+            <div class="price">
+                <span class="old-price">705 DT</span>
+                <span class="new-price">599 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 5 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-20%</span>
+        <div class="img"><img src="manette.png" alt="Manette Gaming"></div>
+        <div class="content">
+            <div>Manette Gaming</div>
+            <div class="price">
+                <span class="old-price">224 DT</span>
+                <span class="new-price">179 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 6 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-25%</span>
+        <div class="img"><img src="casque.png" alt="Casque Gaming"></div>
+        <div class="content">
+            <div>Casque Gaming</div>
+            <div class="price">
+                <span class="old-price">299 DT</span>
+                <span class="new-price">224 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 7 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-30%</span>
+        <div class="img"><img src="ssd.png" alt="SSD 1TB"></div>
+        <div class="content">
+            <div>SSD 1TB</div>
+            <div class="price">
+                <span class="old-price">599 DT</span>
+                <span class="new-price">419 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 8 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-15%</span>
+        <div class="img"><img src="ram.png" alt="RAM 16GB"></div>
+        <div class="content">
+            <div>RAM 16GB</div>
+            <div class="price">
+                <span class="old-price">175 DT</span>
+                <span class="new-price">149 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 9 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-20%</span>
+        <div class="img"><img src="carte.png" alt="Carte Graphique"></div>
+        <div class="content">
+            <div>Carte Graphique</div>
+            <div class="price">
+                <span class="old-price">1499 DT</span>
+                <span class="new-price">1199 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 10 -->
+<div class="produit">
+    <div class="carte">
+        <span class="badge">-25%</span>
+        <div class="img"><img src="laptop.png" alt="Laptop Gaming"></div>
+        <div class="content">
+            <div>Laptop Gaming</div>
+            <div class="price">
+                <span class="old-price">3599 DT</span>
+                <span class="new-price">2699 DT</span>
+            </div>
+            <button>Acheter</button>
+        </div>
+    </div>
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+        <p>E-vendo <a href="#">© 2026</a></p>
+        <div class="social-icons">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+<script>
+        function goToPage() {
+            const value = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            const productMap = {
+                "pc-gamer": "acheter.html",
+                "risen": "acheter.html",
+                "pc-hp": "acheter1.html",
+                "hp": "acheter1.html",
+                "pc-asus": "acheter2.html",
+                "asus": "acheter2.html",
+                "telephonkon": "acheter3.html",
+                "smartphone": "acheter3.html",
+                "iphone": "acheter4.html",
+                "iphone 16": "acheter4.html"
+            };
+
+            if (productMap[value]) {
+                window.location.href = productMap[value];
+            } else {
+                alert("Produit non trouvé");
+            }
+        }
+
+        // Allow Enter key to search
+        document.getElementById("searchInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                goToPage();
+            }
+        });
+
+        // Slider functionality
+        const slider = document.getElementById("slider");
+        const slides = document.querySelectorAll(".slide");
+        const dots = document.querySelectorAll(".dot");
+        let index = 0;
+        let autoSlide;
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function moveSlide(direction) {
+            index = (index + direction + slides.length) % slides.length;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function goToSlide(slideIndex) {
+            index = slideIndex;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function autoSlideFunc() {
+            index = (index + 1) % slides.length;
+            updateSlider();
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(autoSlideFunc, 5000);
+        }
+
+        // Initialize
+        updateSlider();
+        autoSlide = setInterval(autoSlideFunc, 5000);
+    </script>
+
+</body>
+</html>

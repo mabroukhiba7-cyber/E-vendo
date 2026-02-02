@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 17 Pro - Innovation Redéfinie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .welcome-screen {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .welcome-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3));
+            z-index: 1;
+        }
+
+        .hero-text-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 40px;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -0.02em;
+        }
+
+        .btn-shop {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 40px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-shop:hover {
+            background: #fff;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+
+        .btn-shop:active {
+            transform: translateY(0) scale(1);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 12px;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .indicator.active {
+            width: 24px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .arrow-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                margin-bottom: 30px;
+            }
+
+            .btn-shop {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+
+            .nav-arrows {
+                display: none;
+            }
+
+            .carousel-indicators {
+                bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<main class="welcome-screen" id="welcome-hero">
+    <div class="hero-text-container">
+        <h1>On n'arrête pas le progrès. On l'accélère.</h1>
+        <a href="mini projet .html" class="btn-shop">
+            Shop Now →
+        </a>
+    </div>
+
+    <div class="carousel-indicators" id="indicators"></div>
+
+    <div class="nav-arrows">
+        <button class="arrow-btn" id="prevBtn" aria-label="Image précédente">‹</button>
+        <button class="arrow-btn" id="nextBtn" aria-label="Image suivante">›</button>
+    </div>
+</main>
+
+<script>
+    const images = [
+        "iphone17pro.jpg",
+        "macbook.jpg",
+        "applewatch.png",
+    ];
+
+    let currentIndex = 0;
+    let autoPlayInterval;
+    const hero = document.getElementById("welcome-hero");
+    const indicatorsContainer = document.getElementById("indicators");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Créer les indicateurs
+    images.forEach((_, index) => {
+        const indicator = document.createElement("button");
+        indicator.classList.add("indicator");
+        indicator.setAttribute("aria-label", `Image ${index + 1}`);
+        if (index === 0) indicator.classList.add("active");
+        
+        indicator.addEventListener("click", () => {
+            currentIndex = index;
+            updateBackground();
+            resetAutoPlay();
+        });
+        
+        indicatorsContainer.appendChild(indicator);
+    });
+
+    // Mettre à jour l'arrière-plan
+    function updateBackground() {
+        hero.style.backgroundImage = 
+            `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url("${images[currentIndex]}")`;
+        
+        // Mettre à jour les indicateurs
+        document.querySelectorAll(".indicator").forEach((ind, idx) => {
+            ind.classList.toggle("active", idx === currentIndex);
+        });
+    }
+
+    // Changer l'arrière-plan
+    function changeBackground(direction = 1) {
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+        updateBackground();
+    }
+
+    // Initialiser
+    updateBackground();
+
+    // Auto-play
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(() => changeBackground(1), 4000);
+    }
+
+    function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+    }
+
+    startAutoPlay();
+
+    // Navigation
+    prevBtn.addEventListener("click", () => {
+        changeBackground(-1);
+        resetAutoPlay();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        changeBackground(1);
+        resetAutoPlay();
+    });
+
+    // Support clavier
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+            changeBackground(-1);
+            resetAutoPlay();
+        } else if (e.key === "ArrowRight") {
+            changeBackground(1);
+            resetAutoPlay();
+        }
+    });
+
+    // Pause sur hover
+    hero.addEventListener("mouseenter", () => clearInterval(autoPlayInterval));
+    hero.addEventListener("mouseleave", startAutoPlay);
+</script>
+
+</body>
+</html>

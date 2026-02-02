@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>E-vendo - Votre boutique en ligne</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ff6b9d, #c06cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-container {
+            display: flex;
+            flex: 0 1 500px;
+            margin: 0 2rem;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            font-size: 0.95rem;
+            outline: none;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .search-container input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+        }
+
+        .search-container button {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 0 25px 25px 0;
+            transition: all 0.3s;
+        }
+
+        .search-container button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .menu li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b9d, #c06cff);
+            transition: width 0.3s;
+        }
+
+        .menu li a:hover {
+            color: #ff6b9d;
+        }
+
+        .menu li a:hover::after {
+            width: 100%;
+        }
+
+        .account-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .account-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .account-icon i {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        /* Image Slider - FIXED */
+        .image-slider {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .slider {
+            display: flex;
+            list-style: none;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            width: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            background: #000;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-btn:hover {
+            background: #fff;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-btn.prev { left: 2rem; }
+        .slider-btn.next { right: 2rem; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .dot:hover,
+        .dot.active {
+            background: #fff;
+            transform: scale(1.3);
+            border-color: #ff6b9d;
+        }
+
+        /* Products Section */
+        .products-header {
+            text-align: center;
+            margin: 4rem 0 3rem;
+        }
+
+        .products-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .products-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b9d, #c06cff);
+            border-radius: 2px;
+        }
+
+        .section_produits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 5% 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .produit {
+            position: relative;
+        }
+
+        .carte {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carte:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .carte form {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .img {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.05) 100%);
+        }
+
+        .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .carte:hover .img img {
+            transform: scale(1.1);
+        }
+
+        .carte > form > div:not(.img) {
+            padding: 1.2rem;
+        }
+
+        .carte > form > div:nth-child(2) {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .carte > form > div:nth-child(3) {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: auto;
+        }
+
+        .carte > form > div:last-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem;
+            border-top: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+
+        .carte > form > div:last-child > div {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff6b9d;
+        }
+
+        .carte button {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .carte button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 2.5rem 5%;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        footer p a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .search-container {
+                order: 3;
+                flex: 1 1 100%;
+                margin: 0;
+            }
+
+            .menu {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .image-slider {
+                height: 300px;
+            }
+
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .slider-btn.prev { left: 1rem; }
+            .slider-btn.next { right: 1rem; }
+
+            .products-header h1 {
+                font-size: 2rem;
+            }
+
+            .section_produits {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                padding: 0 3% 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">    
+        <h1 class="logo">E-vendo</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher ...">
+            <button onclick="goToPage()">🔍</button>
+        </div>
+        <ul class="menu">
+            <li><a href="mini projet .html">Accueil</a></li>
+            <li><a href="sold.html">Soldes</a></li>
+            <li><a href="panier.html">Panier</a></li>
+        </ul>
+        <div class="account">
+            <a href="form.html">
+                <div class="account-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </a>
+        </div>
+    </nav>
+
+    <section class="image-slider">
+        <button class="slider-btn prev" onclick="moveSlide(-1)">❮</button>
+        <ul class="slider" id="slider">
+            <li class="slide">
+                <img src="unnamed.jpg" alt="Slider 1">
+            </li>
+            <li class="slide">
+                <img src="unnamed (1).jpg" alt="Slider 2">
+            </li>
+            <li class="slide">
+                <img src="unnamed (2).jpg" alt="Slider 3">
+            </li>
+        </ul>
+        <button class="slider-btn next" onclick="moveSlide(1)">❯</button>
+        <div class="slider-dots">
+            <span class="dot" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </section>
+
+    <div class="products-header">
+        <h1>Nos Meilleures Ventes</h1>
+    </div>
+
+    <section class="section_produits">
+        <div class="produit">
+            <div class="carte">
+                <form action="acheter.html">
+                    <div class="img"><img src="unnamed (3).jpg" alt="PC Gamer"></div>
+                    <div>pc gamer</div>
+                    <div>Produit: PC Gamer</div>
+                    <div>
+                        <div>1850 DT</div>
+                        <button type="submit">Acheter</button>
+                    </div> 
+                </form>
+            </div>  
+        </div>
+        
+        <div class="produit">
+            <div class="carte">
+                <form action="acheter1.html">
+                    <div class="img"><img src="unnamed (4).jpg" alt="PC HP"></div>
+                    <div>PC HP Premium</div>
+                    <div>Produit: PC HP</div>
+                    <div>
+                        <div>2219 DT</div>
+                        <button type="submit">Acheter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="produit">
+            <div class="carte">
+                <form action="acheter2.html">
+                    <div class="img"><img src="pc-azuz.jpg" alt="PC ASUS"></div>
+                    <div>ASUS Gaming</div>
+                    <div>Produit: PC ASUS</div>
+                    <div>
+                        <div>2379 DT</div>
+                        <button type="submit">Acheter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="produit">
+            <div class="carte">
+                <form action="acheter3.html">
+                    <div class="img"><img src="smart-tv.png" alt="Smartphone"></div>
+                    <div>Telephonkon</div>
+                    <div>Produit: Smartphone</div>
+                    <div>
+                        <div>699 DT</div>
+                        <button type="submit">Acheter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="produit">
+            <div class="carte">
+                <form action="acheter4.html">
+                    <div class="img"><img src="iphone-17.png" alt="iPhone 16"></div>
+                    <div>iPhone 17</div>
+                    <div>Produit: iPhone 17 128Go</div>
+                    <div>
+                        <div>4199 DT</div>
+                        <button type="submit">Acheter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>E-vendo <a href="#">© 2026</a></p>
+        <div class="social-icons">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        function goToPage() {
+            const value = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            const productMap = {
+                "pc-gamer": "acheter.html",
+                "risen": "acheter.html",
+                "pc-hp": "acheter1.html",
+                "hp": "acheter1.html",
+                "pc-asus": "acheter2.html",
+                "asus": "acheter2.html",
+                "telephonkon": "acheter3.html",
+                "smartphone": "acheter3.html",
+                "iphone": "acheter4.html",
+                "iphone 16": "acheter4.html"
+            };
+
+            if (productMap[value]) {
+                window.location.href = productMap[value];
+            } else {
+                alert("Produit non trouvé");
+            }
+        }
+
+        // Allow Enter key to search
+        document.getElementById("searchInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                goToPage();
+            }
+        });
+
+        // Slider functionality
+        const slider = document.getElementById("slider");
+        const slides = document.querySelectorAll(".slide");
+        const dots = document.querySelectorAll(".dot");
+        let index = 0;
+        let autoSlide;
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function moveSlide(direction) {
+            index = (index + direction + slides.length) % slides.length;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function goToSlide(slideIndex) {
+            index = slideIndex;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function autoSlideFunc() {
+            index = (index + 1) % slides.length;
+            updateSlider();
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(autoSlideFunc, 5000);
+        }
+
+        // Initialize
+        updateSlider();
+        autoSlide = setInterval(autoSlideFunc, 5000);
+    </script>
+</body>
+</html>

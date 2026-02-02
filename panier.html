@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panier - E-vendo</title>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f8f9fa;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 1.2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(45deg, #ff6b9d, #c06cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.search-container {
+    display: flex;
+    flex: 0 1 500px;
+    margin: 0 2rem;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 25px 0 0 25px;
+    font-size: 0.95rem;
+    outline: none;
+    background: #fff;
+    transition: all 0.3s;
+}
+
+.search-container input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+}
+
+.search-container button {
+    background: linear-gradient(135deg, #ff6b9d, #c06cff);
+    border: none;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 0 25px 25px 0;
+    transition: all 0.3s;
+}
+
+.search-container button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: color 0.3s;
+}
+
+.menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b9d, #c06cff);
+    transition: width 0.3s;
+}
+
+.menu li a:hover {
+    color: #ff6b9d;
+}
+
+.menu li a:hover::after {
+    width: 100%;
+}
+
+.account-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9d, #c06cff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.account-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+}
+
+.account-icon i {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+/* Section Titles */
+.products-header h1,
+.panier-section h1,
+.specs-title,
+.related-title {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Products & Panier Cards */
+.section_produits,
+.related-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0 5% 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.produit .carte {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.produit .carte:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.produit .carte .img {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.produit .carte .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.produit .carte:hover .img img {
+    transform: scale(1.1);
+}
+
+.produit .carte > form > div:not(.img) {
+    padding: 1.2rem;
+}
+
+.produit .carte > form > div:nth-child(2) {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.produit .carte > form > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.produit .carte > form > div:last-child .quantity-input {
+    width: 50px;
+    padding: 5px;
+}
+
+.remove-btn,
+.checkout-btn,
+button[type="submit"] {
+    background: linear-gradient(135deg, #ff6b9d, #c06cff);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.remove-btn:hover,
+.checkout-btn:hover,
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+}
+
+/* Footer */
+footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 2.5rem 5%;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        footer p a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #ff6b9d, #c06cff);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .search-container {
+                order: 3;
+                flex: 1 1 100%;
+                margin: 0;
+            }
+
+            .menu {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .image-slider {
+                height: 300px;
+            }
+
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .slider-btn.prev { left: 1rem; }
+            .slider-btn.next { right: 1rem; }
+
+            .products-header h1 {
+                font-size: 2rem;
+            }
+
+            .section_produits {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                padding: 0 3% 3rem;
+            }
+        }
+
+</style>
+</head>
+<body>
+<nav class="navbar">
+    <div><h1 class="logo">E-vendo</h1></div>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Rechercher...">
+        <button onclick="goToPage()">🔍</button>
+    </div>
+    <ul class="menu">
+        <li><a href="mini projet .html">Accueil</a></li>
+        <li><a href="sold.html">Soldes</a></li>
+        <li><a href="panier.html">Panier</a></li>
+    </ul>
+    <div class="account">
+        <a href="form.html">
+            <div class="account-icon"><i class="fas fa-user"></i></div>
+        </a>
+    </div>
+</nav>
+
+<div class="panier-section">
+    <div class="products-header"><h1>Votre Panier</h1></div>
+    <div class="section_produits"></div>
+</div>
+
+<footer>
+        <p>E-vendo <a href="#">© 2026</a></p>
+        <div class="social-icons">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+<script>
+function goToPage() { const value = document.getElementById("searchInput").value.toLowerCase().trim();
+    const productMap={"pc-gamer":"acheter.html","pc-hp":"acheter1.html"}; if(productMap[value]) window.location.href=productMap[value]; else alert("Produit non trouvé"); }
+
+// Load Cart
+const cartContainer=document.querySelector('.section_produits');
+function loadCart(){
+    const cart=JSON.parse(localStorage.getItem('cart'))||[];
+    cartContainer.innerHTML='';
+    let total=0;
+    cart.forEach((item,i)=>{
+        total+=item.price*item.quantity;
+        const productDiv=document.createElement('div'); productDiv.classList.add('produit');
+        productDiv.innerHTML=`<div class="carte">
+            <form>
+                <div class="img"><img src="${item.img}" alt="${item.name}"></div>
+                <div>${item.name}</div>
+                <div>Produit: ${item.name}</div>
+                <div>
+                    <div>${item.price} DT</div>
+                    <input type="number" value="${item.quantity}" min="1" class="quantity-input">
+                    <button type="button" class="remove-btn">Supprimer</button>
+                </div>
+            </form>
+        </div>`;
+        cartContainer.appendChild(productDiv);
+    });
+    const totalDiv=document.createElement('div'); totalDiv.classList.add('produit');
+    totalDiv.innerHTML=`<div class="carte" style="text-align:right; padding:1.5rem;">
+        <div style="font-size:1.3rem; font-weight:700; margin-bottom:1rem;">Total: <span id="total-price">${total} DT</span></div>
+        <button class="checkout-btn">Passer à la caisse</button>
+    </div>`; cartContainer.appendChild(totalDiv);
+    attachCartEvents();
+}
+function attachCartEvents(){
+    const quantityInputs=document.querySelectorAll('.quantity-input');
+    const removeBtns=document.querySelectorAll('.remove-btn');
+    quantityInputs.forEach((input,i)=>{ input.addEventListener('change',()=>{ let cart=JSON.parse(localStorage.getItem('cart'))||[]; cart[i].quantity=parseInt(input.value); localStorage.setItem('cart',JSON.stringify(cart)); loadCart(); }); });
+    removeBtns.forEach((btn,i)=>{ btn.addEventListener('click',()=>{ let cart=JSON.parse(localStorage.getItem('cart'))||[]; cart.splice(i,1); localStorage.setItem('cart',JSON.stringify(cart)); loadCart(); }); });
+}
+loadCart();
+</script>
+</body>
+</html>
